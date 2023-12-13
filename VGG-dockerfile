@@ -1,0 +1,9 @@
+FROM python:3.10
+
+WORKDIR /app
+
+COPY app/ /app
+
+RUN pip install numpy tensorflow tensorflow-hub Pillow
+
+CMD ["python", "./VGG.py"]

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Audio Classification</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center">Audio Classification</h1>
+        <form method="POST" action="/" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="audio_file">Choose an audio file:</label>
+                <input type="file" class="form-control" name="audio_file" accept=".wav, .mp3, .ogg" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Classify</button>
+        </form>
+
+        {% if svm_result_html %}
+        <div class="mt-3">
+            <h2>SVM Result:</h2>
+            <p>{{ svm_result_html }}</p>
+        </div>
+        {% endif %}
+
+        {% if vgg_result_html %}
+        <div class="mt-3">
+            <h2>VGG Result:</h2>
+            <p>{{ vgg_result_html }}</p>
+        </div>
+        {% endif %}
+
+        {% if base64_image %}
+        <div class="mt-3">
+            <h2>Spectrogram:</h2>
+            <img src="data:image/png;base64,{{ base64_image }}" alt="Spectrogram" class="img-fluid">
+        </div>
+        {% endif %}
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

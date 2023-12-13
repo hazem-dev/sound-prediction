@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+
+  ml-image:
+    image: ml-image
+    volumes:
+      - shared-files:/app/models
+
+  vgg:
+    image: vgg
+    volumes:
+      - shared-files:/app/models
+    depends_on:
+      - ml-image
+
+  web-app:
+    image: web-app
+    volumes:
+      - shared-files:/app/models
+    depends_on:
+      - vgg
+    ports:
+      - "8001:5000"
+
+volumes:
+  shared-files:
+    name: shared-files
