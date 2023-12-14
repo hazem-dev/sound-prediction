@@ -1,0 +1,44 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Checkout') {
+            steps {
+                checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/hazem-dev/sound-prediction']])
+            }
+        }
+
+        stage('Build SVM Dockerfile') {
+            steps {
+                script {
+                    def customImageSVM = docker.build("your-svm-image-name", "-f SVM-dockerfile .")
+                }
+            }
+        }
+
+        stage('Build VGG Dockerfile') {
+            steps {
+                script {
+                    def customImageVGG = docker.build("your-vgg-image-name", "-f VGG-dockerfile .")
+                }
+            }
+        }
+
+        stage('Build Web App Dockerfile') {
+            steps {
+                script {
+                    def customImageWebApp = docker.build("your-webapp-image-name", "-f dockerfile .")
+                }
+            }
+        }
+    }
+
+    post {
+        success {
+            echo 'All Dockerfiles built successfully.'
+        }
+        failure {
+            echo 'One or more Dockerfile builds failed.'
+        }
+    }
+}
